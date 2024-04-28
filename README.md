@@ -1,7 +1,7 @@
 # Jekyll Resize 🖼 🤏 🔬
 > Simple image resizing filter for Jekyll 3 and 4
 
-[![GitHub tag](https://img.shields.io/github/tag/jwillmer/jekyll-resize)](https://github.com/jwillmer/jekyll-resize/tags/ "Go to GitHub tags")
+[![GitHub tag](https://img.shields.io/github/tag/Sean1572/jekyll-resize)](https://github.com/Sean1572/jekyll-resize/tags/ "Go to GitHub tags")
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](#license "Go to License section")
 
 [![Made with Ruby](https://img.shields.io/badge/Ruby->=2.6-blue.svg?logo=ruby)](https://ruby-lang.org "Go to Ruby homepage")
@@ -14,7 +14,7 @@ Add the plugin gem to your Gemfile as below, then install it with Bundler.
 
 ```ruby
 group :jekyll_plugins do
-  gem "jekyll-resize", git: "https://github.com/jwillmer/jekyll-resize"
+  gem "jekyll-resize", git: "https://github.com/Sean1572/jekyll-resize"
 end
 ```
 
@@ -69,7 +69,7 @@ See [Contributing](/CONTRIBUTING.md) doc.
 
 ## License
 
-Released under [MIT](/LICENSE) by [@jwillmer](https://github.com/jwillmer).
+Released under [MIT](/LICENSE) by [@Sean1572](https://github.com/Sean1572).
 
 Original license - [MIT](/LICENSE-source).
 

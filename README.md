@@ -44,6 +44,13 @@ Here we resize an image to max width and max height of 800 pixels:
 {{ "my-image.png" | resize: "800x800>" }}
 ```
 
+Here we crop the image to only show the frist 50% (see geomgery for imagemagick for all possible options):
+
+```liquid
+{{ "my-image.png" | resize: "800x800>,webp,80, 50%X100%" }}
+```
+**Note crop occurs before resizing**. The reason crop is the last parameter is to keep it compatible with previous fork
+
 That takes care of:
 
 - _generating_ the reduced image.

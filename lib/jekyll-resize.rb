@@ -76,6 +76,7 @@ module Jekyll
 
       site = @context.registers[:site]
 
+      puts options
       # Split the options string into individual components
       options_array = options.split(',')
       resize_option = options_array[0] # Always present
@@ -88,7 +89,7 @@ module Jekyll
       FileUtils.mkdir_p(dest_dir)
 
       if _must_create?(src_path, dest_path)
-        puts "Resizing '#{source}' to '#{dest_path_rel}' - using resize option: '#{resize_option}'#{", format: #{imageFormat}" if imageFormat}#{", quality: #{imageQuality}" if imageQuality}"
+        puts "Resizing '#{source}' to '#{dest_path_rel}' - using resize option: '#{resize_option}'#{", format: #{imageFormat}" if imageFormat}#{", quality: #{imageQuality}" if imageQuality}#{", crop: #{crop_option}" if crop_option}"
 
         _process_img(src_path, dest_path, resize_option, imageFormat, imageQuality, crop_option)
 

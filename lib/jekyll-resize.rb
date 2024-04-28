@@ -82,7 +82,7 @@ module Jekyll
       resize_option = options_array[0] # Always present
       imageFormat = options_array[1] # Optional
       imageQuality = options_array[2] ? options_array[2].to_i : nil # Optional
-      crop_option = options_array[3] ? options_array[3].to_i : nil # Optional
+      crop_option = options_array[3] # Optional
      
 
       src_path, dest_path, dest_dir, dest_filename, dest_path_rel = _paths(site.source, source, resize_option, imageFormat)

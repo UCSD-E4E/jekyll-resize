@@ -39,6 +39,8 @@ module Jekyll
     def _process_img(src_path, dest_path, resize_option, imageFormat = nil, imageQuality = nil, crop_option = nil)
       image = MiniMagick::Image.open(src_path)
 
+      puts "TEST"
+      puts crop_option
       if crop_option.is_a?(String) && !crop_option.empty?
         image.crop crop_option
       end

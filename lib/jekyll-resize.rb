@@ -5,6 +5,9 @@ module Jekyll
   module Resize
     CACHE_DIR = "cache/resize/"
     HASH_LENGTH = 32
+    MiniMagick.configure do |config|
+      config.cli = :imagemagick7 # or :imagemagick or :graphicsmagick
+    end
 
     # Generate output image filename.
     def _dest_filename(src_path, dest_dir, resize_option, imageFormat)

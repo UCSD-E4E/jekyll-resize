@@ -67,6 +67,7 @@ module Jekyll
     #
     # return dest_path_rel: Relative path for output file.
     def resize(source, options)
+      puts MiniMagick.imagemagick7?
       raise "`source` must be a string - got: #{source.class}" unless source.is_a? String
       raise "`source` may not be empty" unless source.length > 0
       raise "`options` must be a string - got: #{options.class}" unless options.is_a? String

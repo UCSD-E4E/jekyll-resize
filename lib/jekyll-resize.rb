@@ -8,6 +8,7 @@ module Jekyll
     MiniMagick.configure do |config|
       config.cli = :imagemagick7 # or :imagemagick or :graphicsmagick
     end
+    puts "using_imagemagick7? #{MiniMagick.imagemagick7?}'"
 
     # Generate output image filename.
     def _dest_filename(src_path, dest_dir, resize_option, imageFormat)
@@ -70,7 +71,6 @@ module Jekyll
     #
     # return dest_path_rel: Relative path for output file.
     def resize(source, options)
-      puts MiniMagick.imagemagick7?
       raise "`source` must be a string - got: #{source.class}" unless source.is_a? String
       raise "`source` may not be empty" unless source.length > 0
       raise "`options` must be a string - got: #{options.class}" unless options.is_a? String

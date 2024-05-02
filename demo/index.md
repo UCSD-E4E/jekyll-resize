@@ -24,6 +24,41 @@ Rendered image:
 
 ![Test image]({{ my_img | resize: "200x200>" }})
 
+## formatted
+
+Liquid:
+
+```
+{{ my_img | format: "webp" }}
+```
+
+Rendered image:
+
+![Test image]({{ my_img | resize: "200x200>" }})
+
+## cropped
+
+Liquid:
+
+```
+{{ my_img | format: "webp" }}
+```
+
+Rendered image:
+
+![Test image]({{ my_img | resize: "200x200>" | crop: "100x100+0+0,Center" }})
+
+## reduce quality
+
+Liquid:
+
+```
+{{ my_img | format: "webp" }}
+```
+
+Rendered image:
+
+![Test image]({{ my_img | resize: "200x200>" | quality: "10" }})
 
 ## Original
 

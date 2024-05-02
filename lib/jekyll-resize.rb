@@ -236,6 +236,34 @@ module Jekyll
 
       File.join(site.baseurl, dest_path_rel)
     end
+
+    # Use imageMagick on cli instead of through ruby
+    def imageMagick(source, options)
+      _raise_bad_inputs(source, options)
+      site = @context.registers[:site]
+
+      src_path, dest_path, dest_dir, dest_filename, dest_path_rel = _paths(site.source, source, "cli", nil)
+      FileUtils.mkdir_p(dest_dir)
+
+      if _must_create?(src_path, dest_path)
+        puts "Reformating '#{source}' to '#{dest_path_rel}' - using cli: convert '#{source}' '#{options}' '#{dest_path_rel}'"
+
+        options = options.split(" ")
+        MiniMagick::Tool::Convert.new do |convert|
+          convert << src_path
+          convert.merge! options
+          convert << dest_path
+          convert.call
+        end
+
+
+        
+
+        site.static_files << Jekyll::StaticFile.new(site, site.source, CACHE_DIR, dest_filename)
+      end
+
+      File.join(site.baseurl, dest_path_rel)
+    end
   end
 end
 

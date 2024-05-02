@@ -53,12 +53,25 @@ Rendered image:
 Liquid:
 
 ```
+
 {{ my_img | format: "webp" }}
 ```
 
 Rendered image:
 
 ![Test image]({{ my_img | resize: "200x200>" | quality: "10" }})
+
+## Through cli!
+
+Liquid:
+
+```
+imageMagick: "-resize 100x100 -negate"
+```
+
+Rendered image:
+
+![Test image]({{ my_img | imageMagick: "-resize 100x100 -negate" }})
 
 ## Original
 

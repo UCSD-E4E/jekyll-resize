@@ -7,12 +7,12 @@ module Jekyll
     HASH_LENGTH = 32
 
     # Generate output image filename.
-    def _dest_filename(src_path, dest_dir, resize_option, imageFormat)
+    def _dest_filename(src_path, dest_dir, options, imageFormat)
       base_name = File.basename(src_path, File.extname(src_path))
-      options_slug = resize_option.gsub(/[^\da-z]+/i, "")
       ext = imageFormat && !imageFormat.empty? ? ".#{imageFormat}" : File.extname(src_path)
 
-      "#{base_name}_#{options_slug}#{ext}"
+      example_string = "#{base_name}_#{options}#{ext}"
+      "#{example_string.hash}#{ext}"
     end
 
     # Build the path strings.
@@ -121,7 +121,7 @@ module Jekyll
       crop_option = options_array[3] # Optional
      
 
-      src_path, dest_path, dest_dir, dest_filename, dest_path_rel = _paths(site.source, source, resize_option, imageFormat)
+      src_path, dest_path, dest_dir, dest_filename, dest_path_rel = _paths(site.source, source, options, imageFormat)
 
       FileUtils.mkdir_p(dest_dir)
 
@@ -183,7 +183,7 @@ module Jekyll
       crop_option = options_array[0] # Always present
       gravity_option = options_array[1] # Optional
 
-      src_path, dest_path, dest_dir, dest_filename, dest_path_rel = _paths(site.source, source, "cropped", nil)
+      src_path, dest_path, dest_dir, dest_filename, dest_path_rel = _paths(site.source, source, crop_option, nil)
       FileUtils.mkdir_p(dest_dir)
 
       if _must_create?(src_path, dest_path)
@@ -242,7 +242,7 @@ module Jekyll
       _raise_bad_inputs(source, options)
       site = @context.registers[:site]
 
-      src_path, dest_path, dest_dir, dest_filename, dest_path_rel = _paths(site.source, source, "cli", nil)
+      src_path, dest_path, dest_dir, dest_filename, dest_path_rel = _paths(site.source, source, options, nil)
       FileUtils.mkdir_p(dest_dir)
 
       if _must_create?(src_path, dest_path)

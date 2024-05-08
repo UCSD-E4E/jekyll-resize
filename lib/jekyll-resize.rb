@@ -12,7 +12,7 @@ module Jekyll
       ext = imageFormat && !imageFormat.empty? ? ".#{imageFormat}" : File.extname(src_path)
 
       example_string = "#{base_name}_#{options}#{ext}"
-      "#{example_string.hash}#{ext}"
+      "#{Digest::SHA1.hexdigest example_string}#{ext}"
     end
 
     # Build the path strings.

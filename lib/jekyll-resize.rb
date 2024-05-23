@@ -48,18 +48,24 @@ module Jekyll
         aspect_h = crop_option.split(":")[1].split("+")[0].to_f
         offset = "+" + crop_option.split("+")[1] + "+" + crop_option.split("+")[2]
 
-        width = image.width.to_i
-        height = image.height.to_i
+        width = image.width.to_f
+        height = image.height.to_f
 
-        old_ratio =  width /height
+        old_ratio =  width / height
         new_ratio = aspect_w / aspect_h
 
+
+        #puts width / height, width, height
         if new_ratio > old_ratio
           height = (width / new_ratio).to_i # same width, shorter height
         elsif new_ratio < old_ratio
           width = (height * new_ratio).to_i # shorter width, same height
         end
-
+        
+        width = width.to_i
+        height = height.to_i
+        
+        #puts height, width
         crop_option = width.to_s + "x" + height.to_s + offset.to_s
         #puts crop_option
       end

@@ -43,7 +43,7 @@ module Jekyll
       
       # based on https://stackoverflow.com/a/35348017
       # required because GM cannot do the same kind of cropping behavior as IM
-      if crop_option.include? ":"
+      if crop_option.is_a?(String) && crop_option.include?(":")
         aspect_w = crop_option.split(":")[0].to_f
         aspect_h = crop_option.split(":")[1].split("+")[0].to_f
         offset = "+" + crop_option.split("+")[1] + "+" + crop_option.split("+")[2]

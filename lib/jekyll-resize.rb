@@ -40,6 +40,30 @@ module Jekyll
 
     # automatically crops an image
     def _crop_img(image, crop_option, gravity_option = nil) 
+      
+      # based on https://stackoverflow.com/a/35348017
+      # required because GM cannot do the same kind of cropping behavior as IM
+      if crop_option.include? ":"
+        aspect_w = crop_option.split(":")[0].to_f
+        aspect_h = crop_option.split(":")[1].split("+")[0].to_f
+        offset = "+" + crop_option.split("+")[1] + "+" + crop_option.split("+")[2]
+
+        width = image.width.to_i
+        height = image.height.to_i
+
+        old_ratio =  width /height
+        new_ratio = aspect_w / aspect_h
+
+        if new_ratio > old_ratio
+          height = (width / new_ratio).to_i # same width, shorter height
+        elsif new_ratio < old_ratio
+          width = (height * new_ratio).to_i # shorter width, same height
+        end
+
+        crop_option = width.to_s + "x" + height.to_s + offset.to_s
+        puts crop_option
+      end
+
       puts crop_option, gravity_option
       if crop_option.is_a?(String) && !crop_option.empty?
         if !crop_option.include?("+")

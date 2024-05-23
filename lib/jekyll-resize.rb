@@ -106,11 +106,18 @@ module Jekyll
     end
 
     # Read, process, and write out as new image.
-    def _process_img(src_path, dest_path, resize_option = nil, imageFormat = nil, imageQuality = nil, crop_option = nil)
+    def _process_img(
+        src_path, 
+        dest_path, 
+        resize_option = nil, 
+        imageFormat = nil, 
+        imageQuality = nil, 
+        crop_option = nil,
+        gravity_option = nil)
       image = MiniMagick::Image.open(src_path)
       image.auto_orient
 
-      image = _crop_img(image, crop_option)
+      image = _crop_img(image, crop_option, gravity_option)
       image = _resize_img(image, resize_option)
       image = _format_img(image, imageFormat)
       image = _quality_img(image, imageQuality)
@@ -142,6 +149,7 @@ module Jekyll
       imageFormat = options_array[1] # Optional
       imageQuality = options_array[2] ? options_array[2].to_i : nil # Optional
       crop_option = options_array[3] # Optional
+      gravity_option = options_array[4] # Optional
      
 
       src_path, dest_path, dest_dir, dest_filename, dest_path_rel = _paths(site.source, source, options, imageFormat)
@@ -151,7 +159,7 @@ module Jekyll
       if _must_create?(src_path, dest_path)
         puts "Resizing '#{source}' to '#{dest_path_rel}' - using resize option: '#{resize_option}'#{", format: #{imageFormat}" if imageFormat}#{", quality: #{imageQuality}" if imageQuality}#{", crop: #{crop_option}" if crop_option}"
 
-        _process_img(src_path, dest_path, resize_option, imageFormat, imageQuality, crop_option)
+        _process_img(src_path, dest_path, resize_option, imageFormat, imageQuality, crop_option, gravity_option)
 
         site.static_files << Jekyll::StaticFile.new(site, site.source, CACHE_DIR, dest_filename)
       end

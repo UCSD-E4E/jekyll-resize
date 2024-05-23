@@ -36,6 +36,16 @@ Rendered image:
 
 ![Test image]({{ my_img | resize: "200x200>" }})
 
+Liquid:
+
+```
+resize: "200x200^,webp,80,1:1+0+0,East"
+```
+
+Rendered image:
+
+![Test image]({{ my_img | resize: "200x300^,webp,80,2:3+0+0,East" }})
+
 ## cropped
 
 Liquid:

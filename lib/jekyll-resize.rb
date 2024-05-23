@@ -35,6 +35,7 @@ module Jekyll
 
     # Determine whether the image needs to be written.
     def _must_create?(src_path, dest_path)
+      puts !File.exist?(dest_path), File.mtime(dest_path) <= File.mtime(src_path)
       !File.exist?(dest_path) || File.mtime(dest_path) <= File.mtime(src_path)
     end
 

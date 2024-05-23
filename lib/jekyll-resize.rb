@@ -40,7 +40,7 @@ module Jekyll
 
     # automatically crops an image
     def _crop_img(image, crop_option, gravity_option = nil) 
-      
+      puts crop_option, gravity_option
       # based on https://stackoverflow.com/a/35348017
       # required because GM cannot do the same kind of cropping behavior as IM
       if crop_option.is_a?(String) && crop_option.include?(":")
@@ -61,10 +61,9 @@ module Jekyll
         end
 
         crop_option = width.to_s + "x" + height.to_s + offset.to_s
-        puts crop_option
+        #puts crop_option
       end
 
-      puts crop_option, gravity_option
       if crop_option.is_a?(String) && !crop_option.empty?
         if !crop_option.include?("+")
           raise "For crop, use the format {geomerty}+{x_point}+{y_point} location in image!!!"

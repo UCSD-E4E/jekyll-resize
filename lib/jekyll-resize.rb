@@ -13,7 +13,7 @@ module Jekyll
       ext = imageFormat && !imageFormat.empty? ? ".#{imageFormat}" : File.extname(src_path)
 
       example_string = "#{base_name}_#{options}#{ext}"
-      "#{Digest::MD5.file(src_path).hexdigest}_#{Digest::SHA1.hexdigest example_string}#{ext}"
+      "#{Digest::MD5.hexdigest(File.read(src_path))}_#{Digest::SHA1.hexdigest example_string}#{ext}"
     end
 
     # Build the path strings.
@@ -37,7 +37,7 @@ module Jekyll
     # Determine whether the image needs to be written.
     def _must_create?(repo_base, src_path, dest_path)
       dest_path_temp = File.join(repo_base, File.join(CACHE_DIR_TEMP, File.basename(dest_path)))
-
+      puts File.exist?(dest_path_temp)
       # moves file form temp to main cache
       # the idea here is if a file never moves to the new cache, we can delete the old cache
       # old cache contains all files that were removed by user
@@ -45,7 +45,7 @@ module Jekyll
         File.rename dest_path_temp, dest_path
       end 
 
-      
+      puts repo_base, src_path, dest_path
       !File.exist?(dest_path) 
     end
 

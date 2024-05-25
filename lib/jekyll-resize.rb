@@ -4,6 +4,7 @@ require "mini_magick"
 module Jekyll
   module Resize
     CACHE_DIR = "cache/resize/"
+    CACHE_DIR_TEMP = "cache/resize_temp/"
     HASH_LENGTH = 32
 
     # Generate output image filename.
@@ -12,7 +13,7 @@ module Jekyll
       ext = imageFormat && !imageFormat.empty? ? ".#{imageFormat}" : File.extname(src_path)
 
       example_string = "#{base_name}_#{options}#{ext}"
-      "#{Digest::SHA1.hexdigest example_string}#{ext}"
+      "#{Digest::MD5.file(src_path).hexdigest}_#{Digest::SHA1.hexdigest example_string}#{ext}"
     end
 
     # Build the path strings.
@@ -34,9 +35,18 @@ module Jekyll
     end
 
     # Determine whether the image needs to be written.
-    def _must_create?(src_path, dest_path)
-      puts !File.exist?(dest_path), File.mtime(dest_path) <= File.mtime(src_path), dest_path, File.mtime(dest_path), src_path, File.mtime(src_path)
-      !File.exist?(dest_path) || File.mtime(dest_path) <= File.mtime(src_path)
+    def _must_create?(repo_base, src_path, dest_path)
+      dest_path_temp = File.join(repo_base, File.join(CACHE_DIR_TEMP, File.basename(dest_path)))
+
+      # moves file form temp to main cache
+      # the idea here is if a file never moves to the new cache, we can delete the old cache
+      # old cache contains all files that were removed by user
+      if File.exist?(dest_path_temp)
+        File.rename dest_path_temp, dest_path
+      end 
+
+      
+      !File.exist?(dest_path) 
     end
 
     # automatically crops an image
@@ -163,7 +173,7 @@ module Jekyll
 
       FileUtils.mkdir_p(dest_dir)
 
-      if _must_create?(src_path, dest_path)
+      if _must_create?(site.source, src_path, dest_path)
         puts "Resizing '#{source}' to '#{dest_path_rel}' - using resize option: '#{resize_option}'#{", format: #{imageFormat}" if imageFormat}#{", quality: #{imageQuality}" if imageQuality}#{", crop: #{crop_option}" if crop_option}"
 
         _process_img(src_path, dest_path, resize_option, imageFormat, imageQuality, crop_option, gravity_option)
@@ -188,7 +198,7 @@ module Jekyll
       src_path, dest_path, dest_dir, dest_filename, dest_path_rel = _paths(site.source, source, "", options)
       FileUtils.mkdir_p(dest_dir)
 
-      if _must_create?(src_path, dest_path)
+      if _must_create?(site.source, src_path, dest_path)
         puts "Reformating '#{source}' to '#{dest_path_rel}' - using resize option: #{", format: #{options}"}"
 
         image = MiniMagick::Image.open(src_path)
@@ -224,7 +234,7 @@ module Jekyll
       src_path, dest_path, dest_dir, dest_filename, dest_path_rel = _paths(site.source, source, crop_option, nil)
       FileUtils.mkdir_p(dest_dir)
 
-      if _must_create?(src_path, dest_path)
+      if _must_create?(site.source, src_path, dest_path)
         puts "Reformating '#{source}' to '#{dest_path_rel}' - using #{"crop: #{crop_option}"}"
         puts src_path, dest_path
         image = MiniMagick::Image.open(src_path)
@@ -257,7 +267,7 @@ module Jekyll
       src_path, dest_path, dest_dir, dest_filename, dest_path_rel = _paths(site.source, source, options, nil)
       FileUtils.mkdir_p(dest_dir)
 
-      if _must_create?(src_path, dest_path)
+      if _must_create?(site.source, src_path, dest_path)
         puts "Reformating '#{source}' to '#{dest_path_rel}' - using resize option: #{", quality: #{options}"}"
 
         image = MiniMagick::Image.open(src_path)
@@ -283,7 +293,7 @@ module Jekyll
       src_path, dest_path, dest_dir, dest_filename, dest_path_rel = _paths(site.source, source, options, nil)
       FileUtils.mkdir_p(dest_dir)
 
-      if _must_create?(src_path, dest_path)
+      if _must_create?(site.source, src_path, dest_path)
         puts "Reformating '#{source}' to '#{dest_path_rel}' - using cli: convert '#{source}' '#{options}' '#{dest_path_rel}'"
 
         options = options.split(" ")

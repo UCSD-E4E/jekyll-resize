@@ -1,1 +1,2 @@
 *.gem
+/demo/cache/resize_temp

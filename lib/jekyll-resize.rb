@@ -37,7 +37,7 @@ module Jekyll
     # Determine whether the image needs to be written.
     def _must_create?(site, repo_base, src_path, dest_path)
       dest_path_temp = File.join(repo_base, File.join(CACHE_DIR_TEMP, File.basename(dest_path)))
-      puts File.exist?(dest_path_temp)
+      #puts File.exist?(dest_path_temp)
       # moves file form temp to main cache
       # the idea here is if a file never moves to the new cache, we can delete the old cache
       # old cache contains all files that were removed by user
